@@ -26,7 +26,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <a href="{{route('buku.create_admin')}}" class="btn btn-primary" id="Add">Add Buku [+]</a>
+                    <a href="{{route('buku.create_admin')}}" class="btn btn-primary" id="Add">Add New Buku [+]</a>
                     <h3 class="text-center"><i class="fas fa-book"></i> Data Buku </h3>
                     <br><br><br>
                     <div class="table-responsive">
@@ -64,7 +64,7 @@
                                         <form action="{{route('buku.delete_admin', $data->id)}}" method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('delete')}}
-                                            <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i>
+                                            <button type="submit" onclick="return confirm('Apakah Yakin Ingin Menghapus Ini ?')" class="btn btn-danger"><i class="far fa-trash-alt"></i>
                                             </button>
                                          </form>
                                     </td>

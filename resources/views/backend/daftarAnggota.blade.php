@@ -15,15 +15,10 @@
                 {{ session('false') }}
             </div>
         @endif
-        <div class="col-12">
-            <a href="{{route('status.riwayat_user')}}"><span class="btn btn-info"> <i class="fas fa-history"></i> Riwayat Peminjaman Buku</span></a>
-            <br><br>
-        </div>
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3>Dashboard User</h3>
-                    <h5>Note : Limit Kuota Peminjaman Kamu Tersisa : <u> <b style="font-size: 3rem" class="text-danger">{{Auth::user()->limit_pinjam}}</b></u></h5>
+                    Dashboard Anggota
                 </div>
                 <div class="panel-body">
                     @if (session('status'))
@@ -31,37 +26,42 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <h3 class="text-center"><i class="fas fa-book"></i> Data Buku </h3>
+                    <h3 class="text-center"><i class="fas fa-book"></i> Data Anggota </h3>
                     <br><br><br>
                     <div class="table-responsive">
                         <table id="myTable" class="display"   >
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kode Buku</th>
-                                    <th>Kategori</th>
-                                    <th>Judul Buku</th>
-                                    <th>Deskripsi</th>
-                                    <th>Stok</th>
-                                    <th>Pengarang</th>
-                                    <th>Pinjam Buku</th>
-                                   
+                                    <th>Nama Anggota</th>
+                                    <th>Limit Kuota Peminjaman</th>
+                                    <th>Brgabung Sejak</th>
+                                    <th>Nonaktifkan Akun</th>
+                                    <th>Hapus Akun</th>
                               
                                 </tr>
                             </thead>
                             <tbody>
-                                 @foreach ($dataBuku as $data)
+                                 @foreach ($data as $item)
                                  <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td>{{$data->kode_buku}}</td>
-                                    <td>{{$data->kategori}}</td>
-                                    <td>{{$data->judul_buku}}</td>
-                                    <td>{{substr($data->desc,0,100)}}..</td>
-                                    <td>{{$data->stok}}</td>
-                                    <td>{{$data->pengarang}}</td>
+                                    <td>{{$item->name}}</td>
+                                    <td>{{$item->kategori}}</td>
+                                    <td>{{$item->judul_buku}}</td>
                                     <td>
-                                        <a href="{{route('buku.show_user', $data->id)}}" class="btn btn-block btn-info rounded"><i class="fas fa-info-circle"></i></a>
+                                        <a href="{{route('buku.create_admin', $item->id)}}" class="btn btn-danger rounded"><i class="fas fa-ban"></i></a>
+                                        
                                     </td>
+                                    
+                                    <td>
+                                        <form action="{{route('buku.delete_admin', $item->id)}}" method="POST">
+                                            {{ csrf_field() }}
+                                            {{ method_field('delete')}}
+                                            <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i>
+                                            </button>
+                                         </form>
+                                    </td>
+                               
                                 </tr> 
                                  @endforeach   
                             </tbody>
@@ -74,6 +74,16 @@
 </div>
 @endsection
 @section('js')
+    <script>
+            var addBuku   = document.getElementById('AddBuku');
+            var buttonAdd = document.getElementById('Add');
+
+            buttonAdd.addEventListener('click', function(){
+
+                    addBuku.remove()
+                   
+            })
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="//cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>  
     <script src="https://kit.fontawesome.com/ba130e3515.js" crossorigin="anonymous"></script>

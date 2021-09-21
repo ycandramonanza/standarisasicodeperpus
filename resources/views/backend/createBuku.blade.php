@@ -18,10 +18,10 @@
                     @endif
 
                     @if (isset($result))
-                    <form action="{{route('buku.store_admin', $result->id)}}" method="POST">
+                    <form action="{{route('buku.store_admin', $result->id)}}" method="POST" enctype="multipart/form-data">
                     @endif
 
-                    <form action="{{route('buku.store_admin')}}" method="POST">
+                    <form action="{{route('buku.store_admin')}}" method="POST" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="mb-3">
                             <label for="kode_buku" class="form-label">Kode Buku</label>
@@ -53,6 +53,17 @@
                             <input type="text" class="form-control" name="pengarang" id="pengarang" placeholder="Masukan Nama Pengarang" value="{{isset($result) ? $result->pengarang : old('pengarang')}}">
                         </div>
                         <br>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Tambah Gambar</label>
+                            <input type="file" class="form-control" name="image" id="image">
+                        </div>
+                        <br>
+                        @if ($result->image)
+                        <div class="div">
+                            <img src="{{asset('storage/image-buku/'.$result->image)}}" alt="" width="150rem">
+                        </div> 
+                        @endif
+                        <br><br>
                         <div class="mb-3">
                             <button class="btn btn-primary">Simpan Buku <i class="far fa-save"></i> </button>
                         </div>    

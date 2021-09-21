@@ -46,18 +46,42 @@ class BukuRepository{
 
                 $result = ["status" =>false, "message"=>""];
                 $data   = $request->all();
+
                 try {
 
+                       
                         if($id){
                             Buku::findOrFail($id)->update($data);
                             $result["status"]  = true;
                             $result["message"] = "Berhasil di Ubah";
                             return $result;
                         }else{
-                            $bukuRepo = Buku::create($request->all());
-                            $result["status"]  = true;
-                            $result["message"] = "Buku Sudah di Tambahkan";
-                            return $result;
+                        
+                                if($request->hasFile('image')){
+                                       
+                                        // Store image to storage
+                                        $image     = $request->file('image');
+                                        $bukuName  = $data['judul_buku'];
+                                        $fristname = strtok($bukuName, ' ');
+                                        $filename  = $fristname . time() . '.' . $image->getClientOriginalExtension();
+                                        $path = $request->file('image')->storeAs( 'public/image-buku/',  $filename);
+
+                                     
+                                        
+                                }
+
+                                $bukuRepo = Buku::create([
+                                        "kode_buku"  => $request->kode_buku,
+                                        "kategori"   => $request->kategori,
+                                        "judul_buku" => $request->judul_buku,
+                                        'desc'       => $request->desc,
+                                        "stok"       => $request->stok,
+                                        "pengarang"  => $request->pengarang,
+                                        "image"      => $filename,
+                                ]);
+                                $result["status"]  = true;
+                                $result["message"] = "Buku Sudah di Tambahkan";
+                                return $result;
                         }
                             
                 } catch (\Throwable $th) {

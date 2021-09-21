@@ -18,12 +18,12 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Status Riwayat
+                    Pengajuan Buku
                 </div>
                 <div class="panel-body">
                     @if ($data == false)
                     <div class="respone-image text-center">
-                            <img src="{{asset('image/empty/empty.png')}}" alt="" width="100rem" >
+                            <img src="{{asset('image/empty/empty.png')}}" alt="" width="100rem">
                     </div>
                     @endif
                     @if ($data == true)
@@ -32,7 +32,6 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Judul Buku</th>
                                     <th>Kode Pinjaman</th>
                                     <th>Jumlah Pinjaman</th>
                                     <th>Status Buku</th>
@@ -44,7 +43,6 @@
                                  @foreach ($data as $item)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$item->statusBuku->judul_buku}}</td>
                                         <td>{{$item->kode_pinjaman}}</td>
                                         <td>{{$item->jumlah_pinjaman}}  Buku</td>
                                         <td>{{$item->status}}</td>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Buku;
 use App\Repositories\Backend\BukuRepository;
 use App\Http\Requests\BukuRequest;
@@ -27,7 +28,7 @@ class BukuController extends Controller
 
     public function bukuStore(BukuRequest $request, $id = null)
     {
-        
+      
         $data = $this->bukuRepo->storeDataBuku($request, $id);
         if($data['status'] == false){
             $request->session()->flash('false', $data['message']);

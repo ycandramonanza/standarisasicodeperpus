@@ -32,7 +32,6 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Judul Buku</th>
                                     <th>Kode Pinjaman</th>
                                     <th>Jumlah Pinjaman</th>
                                     <th>Status Buku</th>
@@ -44,7 +43,6 @@
                                  @foreach ($data as $item)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$item->statusBuku->judul_buku}}</td>
                                         <td>{{$item->kode_pinjaman}}</td>
                                         <td>{{$item->jumlah_pinjaman}}  Buku</td>
                                         <td>{{$item->status}}</td>

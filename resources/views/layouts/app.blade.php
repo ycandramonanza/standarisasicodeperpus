@@ -57,15 +57,45 @@
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+
+                                    @if (Auth::user()->role == 'Admin')
                                     <li>
-                                        <a href=""><i class="fas fa-users"></i> Anggota </a>
+                                        <a href="{{route('anggota.user_admin')}}"><i class="fas fa-users"></i> Anggota </a>
                                     </li>
+                                    @endif
+
+
+                                    
+                                    @if (Auth::user()->role == 'Admin')
                                     <li>
-                                        <a href=""><i class="far fa-list-alt"></i> Pengajuan</a>
-                                    </li>
+                                        <a href="{{route('daftar.pengajuan_peminjaman_buku_admin')}}"><i class="far fa-list-alt"></i> Daftar Pengajuan</a>
+                                    </li> 
+                                    @endif
+
+                                    @if (Auth::user()->role == 'User')
                                     <li>
-                                        <a href=""> <i class="fas fa-book-reader"></i> Dipinjam</a>
-                                    </li>
+                                        <a href="{{route('status.riwayat_pengajuan_user')}}"><i class="far fa-list-alt"></i> Pengajuan</a>
+                                    </li> 
+                                    @endif
+                                    
+
+                                   @if (Auth::user()->role == 'Admin')
+                                   <li>
+                                    <a href="{{route('daftar.peminjaman_admin')}}">  <i class="fas fa-check-circle"></i> Di Setujui</a>
+                                   </li>   
+                                   @endif
+
+                                   @if (Auth::user()->role == 'User')
+                                   <li>
+                                    <a href="{{route('status.riwayat_peminjaman_user')}}"> <i class="fas fa-book-reader"></i> Peminjaman</a>
+                                    </li> 
+                                   @endif
+                                
+                                   @if (Auth::user()->role == 'Admin')
+                                   <li>
+                                    <a href="{{route('daftar.pembatalan_admin')}}"> <i class="fas fa-window-close"></i> Pembatalan</a>
+                                   </li> 
+                                   @endif
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();

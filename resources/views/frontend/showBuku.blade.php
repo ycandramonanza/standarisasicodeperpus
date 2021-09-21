@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('css')
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css">
 @endsection
 @section('content')
@@ -26,8 +27,13 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <p>Note : Sisa peminjaman kamu adalah <b> 5 </b>Buku</p>
-                    <h3 class="text-center"><i class="fas fa-book"></i> {{$data['judul_buku']}}</h3>
+                    <p>Note : Limit Kuota Peminjaman Kamu Tersisa <u><b style="font-size:20px" class="text-danger">{{Auth::user()->limit_pinjam}}</b></u>  Buku</p>
+
+                    <div class="text-center">
+                        <h3 class="text-center"><i class="fas fa-book"></i> {{$data['judul_buku']}}</h3>
+                        <img src="{{asset('storage/image-buku/'. $data['image'])}}" alt="buku" width="150rem" class="">
+                    </div>
+                   
                     <br><br><br>
                     <form action="{{route('status.buku_user', $data['id'])}}" method="POST">
                         {{ csrf_field() }}
@@ -68,6 +74,20 @@
 @endsection
 @section('js')
    
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/ba130e3515.js" crossorigin="anonymous"></script>
+
+    @if (Session::has('pesan'))
+         <input type="hidden" value="{{ Session::get('pesan') }}" id="session">
+    <script>
+        let sessionData = document.getElementById('session').value;
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text:  sessionData,
+         })
+    </script> 
+    @endif
    
 @endsection

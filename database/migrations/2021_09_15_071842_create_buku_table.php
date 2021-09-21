@@ -21,6 +21,7 @@ class CreateBukuTable extends Migration
             $table->text('desc')->nullable();
             $table->string('stok');
             $table->string('pengarang');
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
