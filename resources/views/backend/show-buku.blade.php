@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('css')
+    <link rel="stylesheet" href="//cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.11.1/css/jquery.dataTables.min.css">
 @endsection
@@ -19,7 +20,7 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Dashboard User
+                    Detail Buku
                 </div>
                 <div class="panel-body">
                     @if (session('status'))
@@ -27,25 +28,13 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <p>Note : Limit Kuota Peminjaman Kamu Tersisa <u><b style="font-size:20px" class="text-danger">{{Auth::user()->limit_pinjam}}</b></u>  Buku</p>
-
                     <div class="text-center">
                         <h3 class="text-center"><i class="fas fa-book"></i> {{$data['judul_buku']}}</h3>
                         <img src="{{asset('storage/image-buku/'. $data['image'])}}" alt="buku" width="150rem" class="">
                     </div>
-                   
                     <br><br><br>
-                    <form action="{{route('status.buku_user', $data['id'])}}" method="POST">
-                        {{ csrf_field() }}
                     <div class="table-responsive">
-                        <table id="myTable" class="table table-hover">
-                            <thead>
-                                <tr>
-                                        <label for="">Masukan Jumlah Buku : </label>
-                                        <input style="width: 10rem" type="number" name="jumlah_pinjaman" class="form-control" placeholder="Max:5">
-                                </tr>
-                            </thead>
-                            <br><br><br>
+                        <table  class="table table-hover">
                             <tbody>
                                 <tr>
                                     <th>Deskripsi</th>
@@ -61,11 +50,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="simpan">
-                            <button type="submit" onclick="return confirm('Apakah kamu yakin ingin meminjam buku ini ?')" class="btn btn-block btn-info rounded"><i class="fas fa-book-open"></i> Pinjam Buku</button>
-                        </div>
                     </div>
-                   </form>
                 </div>
             </div>
         </div>
@@ -73,9 +58,16 @@
 </div>
 @endsection
 @section('js')
-   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="//cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://kit.fontawesome.com/ba130e3515.js" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready( function () {
+            $('#myTable').DataTable();
+        } );
+    </script>
 
     @if (Session::has('pesan'))
          <input type="hidden" value="{{ Session::get('pesan') }}" id="session">

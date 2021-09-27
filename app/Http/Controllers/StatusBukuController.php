@@ -19,12 +19,10 @@ class StatusBukuController extends Controller
 
     public function statusRiwayatAll()
     {
-        
         $datas      = $this->statusBukuRepo->statusRiwayatBuku();
         $data       = $datas['message']->all();
-        
 
-        return view('frontend.riwayatStatusBuku', compact('data'));
+        return view('frontend.riwayat-status-buku', compact('data'));
     }
 
 
@@ -33,7 +31,7 @@ class StatusBukuController extends Controller
         $request    = 'Dalam Pengajuan';
         $datas      = $this->statusBukuRepo->statusRiwayatBuku($request);
         $data       = $datas['message']->all();
-        return view('frontend.riwayatStatusBukuDetail', compact('data'));
+        return view('frontend.riwayat-status-buku-detail', compact('data'));
 
 
     }
@@ -44,7 +42,7 @@ class StatusBukuController extends Controller
         $request    = 'Di Setujui';
         $datas      = $this->statusBukuRepo->statusRiwayatBuku($request);
         $data       = $datas['message']->all();
-        return view('frontend.riwayatStatusBukuDetail', compact('data'));
+        return view('frontend.riwayat-status-buku-detail', compact('data'));
     }
 
 
@@ -53,13 +51,12 @@ class StatusBukuController extends Controller
         $request    = 'Di Batalkan';
         $datas      = $this->statusBukuRepo->statusRiwayatBuku($request);
         $data       = $datas['message']->all();
-        return view('frontend.riwayatStatusBukuDetail', compact('data'));
+        return view('frontend.riwayat-status-buku-detail', compact('data'));
     }
 
 
-    public function statusBukuCreate(Request $request, $id = null)
+    public function statusBukuStore(Request $request, $id = null)
     {
-       
         $data        = $this->statusBukuRepo->statusBuku($request, $id);
         $message     = $data['message'];
 
@@ -91,7 +88,7 @@ class StatusBukuController extends Controller
         $request    = 'All Data';
         $datas      = $this->statusBukuRepo->statusRiwayatBuku($request);
         $data       = $datas['message']->all();
-        return view('backend.daftarStatusBuku', compact('data'));
+        return view('backend.daftar-status-buku', compact('data'));
     }
 
 
@@ -99,13 +96,14 @@ class StatusBukuController extends Controller
 
         $datas   = $this->statusBukuRepo->statusApprove($id);
         $message = $datas['message'];
+
         return redirect()->back()->with('approve', $message);
 
     }
 
 
     public function cancel(StatusBuku $id = null){
-        $datas   = $this->statusBukuRepo->statusCancel($id);
+        $datas   = $this->statusBukuRepo->statusCancelReturn($id);
         $message = $datas['message'];
         return redirect()->back()->with('cancel', $message);
     }
@@ -113,7 +111,7 @@ class StatusBukuController extends Controller
 
     public function statusReturn(StatusBuku $id = null){
 
-        $datas   = $this->statusBukuRepo->statusReturn($id);
+        $datas   = $this->statusBukuRepo->statusCancelReturn($id);
         $message = $datas['message'];
         return redirect()->back()->with('return', $message);
     }
@@ -125,7 +123,7 @@ class StatusBukuController extends Controller
         $request    = 'Di Setujui';
         $datas      = $this->statusBukuRepo->statusRiwayatBuku($request);
         $data       = $datas['message']->all();
-        return view('backend.daftarStatusBuku', compact('data'));
+        return view('backend.daftar-status-buku', compact('data'));
 
     }
 
@@ -134,7 +132,7 @@ class StatusBukuController extends Controller
         $request    = 'Di Batalkan';
         $datas      = $this->statusBukuRepo->statusRiwayatBuku($request);
         $data       = $datas['message']->all();
-        return view('backend.daftarStatusBuku', compact('data'));
+        return view('backend.daftar-status-buku', compact('data'));
 
     }
 

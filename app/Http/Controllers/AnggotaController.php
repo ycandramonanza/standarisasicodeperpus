@@ -16,7 +16,7 @@ class AnggotaController extends Controller
         
         $data = User::where('role', 'User')->orderBy('id', 'DESC')->get();
 
-        return view('backend.daftarAnggota', compact('data'));
+        return view('backend.daftar-anggota', compact('data'));
 
     }
 }

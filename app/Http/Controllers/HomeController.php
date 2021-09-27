@@ -33,24 +33,29 @@ class HomeController extends Controller
     public function index()
     {
         // getDataRoleRepo
-        $dataLogins = $this->userRepo->getDataLogin();
-        $dataLogin     = $dataLogins['message'];
+        $dataLogin = $this->userRepo->getDataLogin();
       
-        // getDataBukuRepo
-        $dataBukus = $this->bukuRepo->getDataBuku();
-        $dataBuku     = $dataBukus['message'];
-       
-        
+        // getDataBukuRepoAdmin
+        $dataBuku = $this->bukuRepo->getDataBuku();
+
+        // $dataBuku
+
 
         // branching login according to role
         if($dataLogin == 'Admin'){
-            return view('backend/homeAdmin', compact('dataBuku'));
+            return view('backend/home-admin', compact('dataBuku'));
         }else if($dataLogin == 'User'){
-            return view('frontend/homeUser', compact('dataBuku'));
+            return view('frontend/home-user', compact('dataBuku'));
         }else{
             Auth::logout();
             Session::flash('status', $dataLogin);
             return redirect('/login');
         }
+    }
+
+    
+    public function search(Request $request){
+            $dataBuku = $this->bukuRepo->getDataSearchBuku($request);
+            return view('backend.home-admin', compact('dataBuku'));
     }
 }

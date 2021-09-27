@@ -29,7 +29,7 @@ class BukuRequest extends FormRequest
             "judul_buku" => "required",
             "desc"       =>  "",
             "stok"       => "numeric",
-            "pengarang"  => "required"
+            "pengarang"  => "required",
         ];
     }
 }

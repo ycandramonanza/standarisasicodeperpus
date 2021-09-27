@@ -18,7 +18,7 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Dashboard Admin
+                    Dashboard Anggota
                 </div>
                 <div class="panel-body">
                     @if (session('status'))
@@ -26,45 +26,38 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <a href="{{route('buku.create_admin')}}" class="btn btn-primary" id="Add">Add New Buku [+]</a>
-                    <h3 class="text-center"><i class="fas fa-book"></i> Data Buku </h3>
+                    <h3 class="text-center"><i class="fas fa-book"></i> Data Anggota </h3>
                     <br><br><br>
                     <div class="table-responsive">
                         <table id="myTable" class="display"   >
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Kode Buku</th>
-                                    <th>Kategori</th>
-                                    <th>Judul Buku</th>
-                                    <th>Deskripsi</th>
-                                    <th>Stok</th>
-                                    <th>Pengarang</th>
-                                    <th>Aksi</th>
-                                    <th>Aksi</th>
+                                    <th>Nama Anggota</th>
+                                    <th>Limit Kuota Peminjaman</th>
+                                    <th>Brgabung Sejak</th>
+                                    <th>Nonaktifkan Akun</th>
+                                    <th>Hapus Akun</th>
                               
                                 </tr>
                             </thead>
                             <tbody>
-                                 @foreach ($dataBuku as $data)
+                                 @foreach ($data as $item)
                                  <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td>{{$data->kode_buku}}</td>
-                                    <td>{{$data->kategori}}</td>
-                                    <td>{{$data->judul_buku}}</td>
-                                    <td>{{substr($data->desc,0,100)}}..</td>
-                                    <td>{{$data->stok}}</td>
-                                    <td>{{$data->pengarang}}</td>
+                                    <td>{{$item->name}}</td>
+                                    <td>{{$item->limit_pinjam}} Buku</td>
+                                    <td>{{$item->created_at->format('d-M-Y')}}</td>
                                     <td>
-                                        <a href="{{route('buku.create_admin', $data->id)}}" class="btn btn-success rounded"><i class="far fa-edit"></i></a>
+                                        <a href="{{route('buku.create_admin', $item->id)}}" class="btn btn-danger rounded"><i class="fas fa-ban"></i></a>
                                         
                                     </td>
                                     
                                     <td>
-                                        <form action="{{route('buku.delete_admin', $data->id)}}" method="POST">
+                                        <form action="{{route('buku.delete_admin', $item->id)}}" method="POST">
                                             {{ csrf_field() }}
                                             {{ method_field('delete')}}
-                                            <button type="submit" onclick="return confirm('Apakah Yakin Ingin Menghapus Ini ?')" class="btn btn-danger"><i class="far fa-trash-alt"></i>
+                                            <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i>
                                             </button>
                                          </form>
                                     </td>

@@ -17,51 +17,51 @@
                         </div>
                     @endif
 
-                    @if (isset($result))
-                    <form action="{{route('buku.store_admin', $result->id)}}" method="POST" enctype="multipart/form-data">
+                    @if (isset($id))
+                    <form action="{{route('buku.store_admin', $id->id)}}" method="POST" enctype="multipart/form-data">
                     @endif
 
                     <form action="{{route('buku.store_admin')}}" method="POST" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="mb-3">
                             <label for="kode_buku" class="form-label">Kode Buku</label>
-                            <input type="text" class="form-control" name="kode_buku" id="kode_buku" placeholder="Masukan Kode Buku" value="{{isset($result) ? $result->kode_buku : old('kode_buku')}}">
+                            <input type="text" class="form-control" name="kode_buku" id="kode_buku" placeholder="Masukan Kode Buku" value="{{isset($id) ? $id->kode_buku : old('kode_buku')}}">
                         </div>
                         <br>
                         <div class="mb-3">
                             <label for="kategori" class="form-label">Kategori</label>
-                            <input type="text" class="form-control" name="kategori" id="kategori" placeholder="Masukan Kategori" value="{{isset($result) ? $result->kategori : old('kategori')}}">
+                            <input type="text" class="form-control" name="kategori" id="kategori" placeholder="Masukan Kategori" value="{{isset($id) ? $id->kategori : old('kategori')}}">
                         </div>
                         <br>
                         <div class="mb-3">
                             <label for="judul_buku" class="form-label">Judul Buku</label>
-                            <input type="text" class="form-control" name="judul_buku" id="judul_buku" placeholder="Masukan Judul Buku" value="{{isset($result) ? $result->judul_buku : old('judul_buku')}}">
+                            <input type="text" class="form-control" name="judul_buku" id="judul_buku" placeholder="Masukan Judul Buku" value="{{isset($id) ? $id->judul_buku : old('judul_buku')}}">
                         </div>
                         <br>
                         <div class="mb-3">
                             <label for="desc" class="form-label">Deskripsi</label>
-                            <textarea class="form-control" name="desc" id="desc" rows="3" placeholder="Masukan Deskripsi..">{{isset($result) ? $result->desc : old('desc')}}</textarea>
+                            <textarea class="form-control" name="desc" id="desc" rows="3" placeholder="Masukan Deskripsi..">{{isset($id) ? $id->desc : old('desc')}}</textarea>
                         </div> 
                         <br>
                         <div class="mb-3">
                             <label for="stok" class="form-label">Stok</label>
-                            <input type="text" class="form-control" name="stok" id="stok" placeholder="Masukan Stok Buku" value="{{isset($result) ? $result->stok : old('stok')}}">
+                            <input type="text" class="form-control" name="stok" id="stok" placeholder="Masukan Stok Buku" value="{{isset($id) ? $id->stok : old('stok')}}">
                         </div>
                         <br>
                         <div class="mb-3">
                             <label for="pengarang" class="form-label">Pengarang</label>
-                            <input type="text" class="form-control" name="pengarang" id="pengarang" placeholder="Masukan Nama Pengarang" value="{{isset($result) ? $result->pengarang : old('pengarang')}}">
+                            <input type="text" class="form-control" name="pengarang" id="pengarang" placeholder="Masukan Nama Pengarang" value="{{isset($id) ? $id->pengarang : old('pengarang')}}">
                         </div>
                         <br>
                         <div class="mb-3">
                             <label for="image" class="form-label">Tambah Gambar</label>
-                            <input type="file" class="form-control" name="image" id="image">
+                            <input type="file" class="form-control" name="image" id="image" value="{{asset('storage/image-buku/'.$id->image)}}">
                         </div>
                         <br>
-                        @if ($result->image)
+                        @if ($id->image)
                         <div class="div">
-                            <img src="{{asset('storage/image-buku/'.$result->image)}}" alt="" width="150rem">
-                        </div> 
+                            <img src="{{asset('storage/image-buku/'.$id->image)}}" alt="" width="150rem">
+                        </div>
                         @endif
                         <br><br>
                         <div class="mb-3">
