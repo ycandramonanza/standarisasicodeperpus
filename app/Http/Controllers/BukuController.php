@@ -35,6 +35,7 @@ class BukuController extends Controller
         Session::flash('message', $data['message']);
         $sessionStatus = $data['status'] ? 'success' : 'error';
 
+
         Session::flash('icon', $sessionStatus);
         return redirect()->route('home');
 
