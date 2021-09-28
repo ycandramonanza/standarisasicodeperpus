@@ -3,6 +3,7 @@
 namespace App\Repositories\Backend;
 use Illuminate\Support\Facades\Storage;
 use App\Buku;
+use App\User;
 use App\StatusBuku;
 use Auth;
 
@@ -43,42 +44,29 @@ class BukuRepository{
         $result = ["status" =>false, "message"=>""];
         $data   = $request->all();
         try {
-            if($id){
 
-                $bukuRepo = Buku::findOrFail($id);
+                if($id){
+                    $bukuRepo = Buku::findOrFail($id);
 
-                if($request->image){
-                        $filename = $bukuRepo->image;
+                    if($request->hasFile('image')){
                         if(\File::exists('storage/image-buku/'. $bukuRepo->image )){
                             \File::delete('storage/image-buku/'. $bukuRepo->image);
                         }
+                        $filename = $bukuRepo->image;
                         $request->file('image')->storeAs( 'public/image-buku/',  $filename);
-                        $bukuRepo->update([
-                            "kode_buku"  => $request->kode_buku,
-                            "kategori"   => $request->kategori,
-                            "judul_buku" => $request->desc,
-                            "stok"       => $request->stok,
-                            "pengarang"  => $request->pengarang,
-                            "image"      => $filename,
-                        ]);
-                        $result["status"]  = true;
-                        $result["message"] = "Berhasil di Ubah";
-                        return $result;
-                }else{
-                    $bukuRepo->update($data);
-                    $result["status"]  = true;
-                    $result["message"] = "Berhasil di Ubah";
-                    return $result;
-                }
+                    }else{
+                        $filename = $bukuRepo->image;
+                    }
 
-            }else{
-                if(!$request->hasFile('image')){
-                    $result['status'] = false;
-                    $result ['message'] = "Gambar Tidak Boleh Kosong";
-                    return $result;
-                }
-                if($request->hasFile('image')){
-                    // Store image to storage
+                }else{
+                    $bukuRepo = new Buku;
+
+                    if(!$request->image){
+                        $result["status"]  = false;
+                        $result["message"] = "Failed";
+                        return $result;
+                    }
+
                     $image     = $request->file('image');
                     $bukuName  = $data['judul_buku'];
                     $fristname = strtok($bukuName, ' ');
@@ -86,19 +74,19 @@ class BukuRepository{
                     $request->file('image')->storeAs( 'public/image-buku/',  $filename);
                 }
 
-                Buku::create([
-                    "kode_buku"  => $request->kode_buku,
-                    "kategori"   => $request->kategori,
-                    "judul_buku" => $request->judul_buku,
-                    'desc'       => $request->desc,
-                    "stok"       => $request->stok,
-                    "pengarang"  => $request->pengarang,
-                    "image"      => $filename,
-                ]);
+                $bukuRepo->kode_buku  = $request->kode_buku;
+                $bukuRepo->kategori   = $request->kategori;
+                $bukuRepo->judul_buku = $request->judul_buku;
+                $bukuRepo->desc       = $request->desc;
+                $bukuRepo->stok       = $request->stok;
+                $bukuRepo->pengarang  = $request->pengarang;
+                $bukuRepo->image      = $filename;
+                $bukuRepo->save();
+
                 $result["status"]  = true;
-                $result["message"] = "Buku Sudah di Tambahkan";
+                $result["message"] = "Success";
                 return $result;
-            }
+
                             
         } catch (\Throwable $th) {
             $result["message"] = $th->getMessage();
@@ -110,7 +98,6 @@ class BukuRepository{
         // Menghapus Data
     public function delete($id){
         $result = ["status"=>false, "message"=> ""];
-             
         try {
             $id->delete();
             $result['status']  = true;

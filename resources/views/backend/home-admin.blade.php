@@ -124,13 +124,15 @@
          </script>
        @endif
 
-        @if (Session::has('true'))
-            <input type="hidden" value="{{ Session::get('true') }}" id="session">
+        @if (Session::has('message'))
+            <input type="hidden" value="{{ Session::get('message') }}" id="session">
+            <input type="hidden" value="{{ Session::get('icon') }}" id="icon">
             <script>
                 let sessionData = document.getElementById('session').value;
+                let sessionIcon = document.getElementById('icon').value;
                 Swal.fire({
                     position: 'top-end',
-                    icon: 'success',
+                    icon: sessionIcon,
                     title: sessionData,
                     showConfirmButton: false,
                     timer: 1500

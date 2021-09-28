@@ -93,52 +93,41 @@ class StatusBukuRepository{
             if ( $request == 'Dalam Pengajuan' )
             {
                 $statusBukuRepo     = StatusBuku::where('user_id', $authId)->where('status', $request)->with('statusBuku')->get();
-                $result["status"]   = true;
-                $result['message']  = $statusBukuRepo;
-                return $result;
             } else if( $request == 'Di Setujui' )
             {
-                if( $authRole == 'Admin')
-                {
+                    if( $authRole == 'Admin')
+                    {
+                        $statusBukuRepo     = StatusBuku::where('status', $request)->with('statusBuku')->orderBy('id', 'DESC')->get();
+                    }else{
+                        $statusBukuRepo     = StatusBuku::where('user_id', $authId)->where('status', $request)->with('statusBuku')->orderBy('id', 'DESC')->orderBy('id', 'DESC')->get();
+                    }
 
-                    $statusBukuRepo     = StatusBuku::where('status', $request)->with('statusBuku')->orderBy('id', 'DESC')->get();
                     $result["status"]   = true;
                     $result['message']  = $statusBukuRepo;
                     return $result;
-                }else{
-                    $statusBukuRepo     = StatusBuku::where('user_id', $authId)->where('status', $request)->with('statusBuku')->orderBy('id', 'DESC')->orderBy('id', 'DESC')->get();
-                    $result["status"]   = true;
-                    $result['message']  = $statusBukuRepo;
-                    return $result;
-                }
             } else if( $request == 'Di Batalkan' )
             {
-                if(Auth::user()->role == 'Admin')
-                {
-                    $statusBukuRepo     = StatusBuku::where('status', $request)->with('statusBuku')->orderBy('id', 'DESC')->orderBy('id', 'DESC')->get();
+                    if(Auth::user()->role == 'Admin')
+                    {
+                        $statusBukuRepo     = StatusBuku::where('status', $request)->with('statusBuku')->orderBy('id', 'DESC')->orderBy('id', 'DESC')->get();
+                    }else{
+                        $statusBukuRepo     = StatusBuku::where('user_id', $authId)->where('status', $request)->with('statusBuku')->orderBy('id', 'DESC')->get();
+                    }
+
                     $result["status"]   = true;
                     $result['message']  = $statusBukuRepo;
                     return $result;
-                }else{
-                    $statusBukuRepo     = StatusBuku::where('user_id', $authId)->where('status', $request)->with('statusBuku')->orderBy('id', 'DESC')->get();
-                    $result["status"]   = true;
-                    $result['message']  = $statusBukuRepo;
-                    return $result;
-                }
             } else if( $request == 'All Data')
             {
-                $statusBukuRepo     = StatusBuku::where('status', 'Dalam Pengajuan')->with('statusBuku')->get();
-                $result["status"]   = true;
-                $result['message']  = $statusBukuRepo;
-                return $result;
-
+                    $statusBukuRepo     = StatusBuku::where('status', 'Dalam Pengajuan')->with('statusBuku')->get();
             }else
             {
-                $statusBukuRepo     = StatusBuku::where('user_id', $authId)->with('statusBuku')->orderBy('id', 'DESC')->get();
-                $result["status"]   = true;
-                $result['message']  = $statusBukuRepo;
-                return $result;
+                    $statusBukuRepo     = StatusBuku::where('user_id', $authId)->with('statusBuku')->orderBy('id', 'DESC')->get();
             }
+
+            $result["status"]   = true;
+            $result['message']  = $statusBukuRepo;
+            return $result;
         } catch (\Throwable $th) {
             $result['message']  = $th->getMessage();
             return $result;
@@ -160,14 +149,11 @@ class StatusBukuRepository{
             $stokMinus   = $stokBuku['stok'] - $id->jumlah_pinjaman;
             $stokBuku->update([
                 'stok' => $stokMinus,
-
             ]);
 
             $id->update([
                 'status' => $status,
             ]);
-
-
 
             $result['status']  = true;
             $result['message'] = 'Buku Berhasil di Pinjam';

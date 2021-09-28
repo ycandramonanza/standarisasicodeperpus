@@ -30,13 +30,22 @@ class BukuController extends Controller
     {
 
         $data = $this->bukuRepo->storeDataBuku($request, $id);
-        if($data['status'] == false){
-            $request->session()->flash('false', $data['message']);
-            return redirect()->route('home');
-        }else{
-            $request->session()->flash('true', $data['message']);
-            return redirect()->route('home');
-        }
+
+//        Syntax Tidak Boros*
+        Session::flash('message', $data['message']);
+        $sessionStatus = $data['status'] ? 'success' : 'error';
+
+        Session::flash('icon', $sessionStatus);
+        return redirect()->route('home');
+
+//        Pemborosan Syntax
+//        if($data['status'] == false){
+//            $request->session()->flash('false', $data['message']);
+//            return redirect()->route('home');
+//        }else{
+//            $request->session()->flash('true', $data['message']);
+//            return redirect()->route('home');
+//        }
     }
 
 

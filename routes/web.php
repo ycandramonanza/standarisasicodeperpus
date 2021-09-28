@@ -31,6 +31,7 @@ Route::get('/search/buku', 'HomeController@search')->name('search');
 
         Route::prefix('anggota')->group(function() {
             Route::get('/perpustakaan-digital', 'AnggotaController@indexAnggota')->name('anggota.user_admin');
+            Route::delete('/deletes/{id}', 'AnggotaController@anggotaDelete')->name('anggota.delete_admin');
         });
 
         Route::prefix('status')->group(function() {
