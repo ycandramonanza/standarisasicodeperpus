@@ -13,8 +13,6 @@ class StatusBukuRepository{
         $result = ["status" => false, "message" => ""];
         $jumlahPinjaman = $request->jumlah_pinjaman;
 
-
-
         try {
             // Id Buku
             $buku_id = $id;
@@ -71,7 +69,6 @@ class StatusBukuRepository{
                 'jumlah_pinjaman' => $jumlahPinjaman
             ]);
 
-
             $result['status']  = true;
             $result['message'] = 'Berhasil Mengajukan Pinjaman Buku';
             return $result;
@@ -105,6 +102,7 @@ class StatusBukuRepository{
                     $result["status"]   = true;
                     $result['message']  = $statusBukuRepo;
                     return $result;
+
             } else if( $request == 'Di Batalkan' )
             {
                     if(Auth::user()->role == 'Admin')

@@ -31,10 +31,11 @@ class BukuRepository{
     // Mengambil Data Buku Di Database
     public function getDataBuku(){
         $authId = Auth::user()->role;
+
         if($authId == 'Admin' ){
-            return $bukuRepo = Buku::orderBy('id', 'DESC')->paginate(4);
+            return Buku::orderBy('id', 'DESC')->paginate(4);
         }else{
-            return $bukuRepo = Buku::all();
+            return Buku::all();
         }
     }
 
@@ -42,9 +43,8 @@ class BukuRepository{
     // Menambahkan Data Buku Ke Database
     public function storeDataBuku($request, $id = null){
         $result = ["status" =>false, "message"=>""];
-        $data   = $request->all();
-        try {
 
+        try {
                 if($id){
                     $bukuRepo = Buku::findOrFail($id);
 
@@ -68,7 +68,7 @@ class BukuRepository{
                     }
 
                     $image     = $request->file('image');
-                    $bukuName  = $data['judul_buku'];
+                    $bukuName  = $request->judul_buku;
                     $fristname = strtok($bukuName, ' ');
                     $filename  = $fristname . time() . '.' . $image->getClientOriginalExtension();
                     $request->file('image')->storeAs( 'public/image-buku/',  $filename);
@@ -87,7 +87,6 @@ class BukuRepository{
                 $result["message"] = "Success";
                 return $result;
 
-                            
         } catch (\Throwable $th) {
             $result["message"] = $th->getMessage();
             return $result;
